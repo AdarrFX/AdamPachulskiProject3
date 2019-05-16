@@ -1,0 +1,85 @@
+@import "partials/setup";
+
+$pageBackground: #add8e6;
+$punchSectionBackground: rgb(99, 207, 243);
+$punchDisplayBackground: rgb(50, 181, 224);
+
+
+.full-page-wrapper {
+    background: $pageBackground;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.content-wrapper {
+    width: 90%;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+}
+
+.punch-section{
+    height: 600px;
+    background: $punchSectionBackground;
+    text-align: center;
+}
+
+.message-input{
+    // display: block;
+}
+
+.submit-button {
+    // display: block;
+}
+
+.punch-display-wrapper {
+    background: $punchDisplayBackground;
+    margin: 0 auto;
+    width: 60%;
+    height: 500px;
+}
+.punch-slot {
+    background: grey;
+    margin: 0 auto;
+    width: 320px;
+    height: 35px;
+}
+
+.punch-card {
+    background: bisque;
+    width: 300px;
+    padding: 20px;
+    border-radius: 25px;
+    min-height: 250px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // transform: rotate(10deg);
+}
+
+.punch-row {
+    width: 100%;
+    display: flex;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    justify-content: space-around;
+}
+
+.punch-hole {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.punch-hole-closed {
+    background: bisque;
+    border: 2px dotted red;
+}

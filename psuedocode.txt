@@ -1,0 +1,40 @@
+Interactive punch card reader
+Pseudocode
+
+Message limit: 15 characters
+
+START (Process message)
+-Receive input from user from a typed message in input box (string)
+
+-Convert string message to UTF-8 decimal number values and store each value in an array
+
+-Convert decimal array to two-dimensional binary array:
+
+--- First binary array dimension representing the single character
+
+--- Second binary array dimension for each single character filled with single string values of '0' or '1'.
+
+-Using Jquery, render HTML div classes of 'row', and in 'row', 'holes', with a seperate class of 'punched' (1) or 'unpunched'(0) to the DOM on the punch card.
+
+READ (Read message)
+-Clear the punch card and fill it with div hole elements, all unpunched
+
+-Allow the user to click on a hole to punch it out. For purposes of the game, the hole can be unpunched after it is punched (togglable state)
+
+-READ button is pressed, storing the values in a two dimensional binary array, similar to the Process function above.
+--- Function will loop through the punch-holes and check to see if it has a class of 'punched' applied. If so, add a "1" to the binary array, and if not punched, add a "0".
+
+-Read function will read through each character represented by the binary array and parse the value to a decimal number.
+
+-Decimal number will be converted to a UTF-8 character from the decimal value and stored in a string array.
+
+-Converted Message will be displayed in the input text area, or a more appropriate display area if there is time to code it.
+
+ERROR HANDLING:
+-8 bit binary can only store up to value 256.
+
+- Code will ensure that user can only enter UTF-8 characters up to value 256, anything over will result in an error and a text reminder.
+
+STRETCH GOALS:
+--- Implementing code to animate the punch card reader 'punching out' and 'reading' the card. Will require use of time/animation functions.
+--- Create a punch card of more dynamic size rather than being limited to only 15 characters.
