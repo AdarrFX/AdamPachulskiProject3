@@ -12,8 +12,14 @@ $punchDisplayBackground: rgb(50, 181, 224);
 }
 
 .content-wrapper {
-    width: 90%;
+    width: 95%;
     margin: 0 auto;
+    max-width: 1400px;
+}
+
+h1 {
+    margin: 0;
+    padding: 15px;
 }
 
 header {
@@ -26,8 +32,22 @@ header {
     text-align: center;
 }
 
+.punch-form{
+    padding: 20px;  
+}  
+
 .message-input{
-    // display: block;
+    padding: 5px;
+    margin: 10px;
+    font-family: "Press Start 2P", serif;
+    border:4px inset rgb(140, 214, 30);
+    background-color: rgb(2, 43, 1);
+    border-radius: 25px;
+    color:  rgb(140, 214, 30);
+    text-align: center;
+    font-size: 25px;
+    width: 50%;
+    min-width: 300px;
 }
 
 .submit-button {
@@ -37,7 +57,7 @@ header {
 .punch-display-wrapper {
     background: $punchDisplayBackground;
     margin: 0 auto;
-    width: 60%;
+    width: 90%;
     height: 500px;
 }
 .punch-slot {

@@ -151,8 +151,13 @@ legend, button::-moz-focus-inner, input::-moz-focus-inner {
   min-height: 100vh; }
 
 .content-wrapper {
-  width: 90%;
-  margin: 0 auto; }
+  width: 95%;
+  margin: 0 auto;
+  max-width: 1400px; }
+
+h1 {
+  margin: 0;
+  padding: 15px; }
 
 header {
   text-align: center; }
@@ -162,10 +167,26 @@ header {
   background: #63cff3;
   text-align: center; }
 
+.punch-form {
+  padding: 20px; }
+
+.message-input {
+  padding: 5px;
+  margin: 10px;
+  font-family: "Press Start 2P", serif;
+  border: 4px inset #8cd61e;
+  background-color: #022b01;
+  border-radius: 25px;
+  color: #8cd61e;
+  text-align: center;
+  font-size: 25px;
+  width: 50%;
+  min-width: 300px; }
+
 .punch-display-wrapper {
   background: #32b5e0;
   margin: 0 auto;
-  width: 60%;
+  width: 90%;
   height: 500px; }
 
 .punch-slot {
