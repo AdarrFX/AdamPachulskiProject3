@@ -1,78 +1,32 @@
-// const controlCharacters = [
-//     {
-//         value: 0,
-//         string: ""
-//     }
-// ];
 
-// const punchCardRowHeight = 35;
-// let punchCardTopPosition = 0;
-
-// const animateCard = {
-
-//     cardTopRelative: 0,
-//     feedCounter: 0,
-//     feedInOut: function (direction, amountOfPunches) {
-
-//         let punchCard = document.querySelectorAll(".punch-card");
-//         let increment = 0;
-
-//         if (direction == "up") {
-//             console.log("up")
-//             increment = -1 * punchCardRowHeight;
-//         } else {
-//             increment = punchCardRowHeight;
-//         }
-//         console.log(this.cardTopRelative)
-//         this.cardTopRelative += increment;
-
-//         console.log("delayed");
-
-//         this.feedCounter++;
-//         if (this.feedCounter < amountOfPunches) {
-//             setTimeout(this.feedInOut(direction, amountOfPunches), 201);
-//         }//closing for setTimeOut function
-//     }//closing for punchUp function
-// };
-
-
-// let timerLoopCounter = 0, punchCount = 15;
-// let punchCard = document.querySelectorAll(".punch-card");
-
-// function punchFeed() {
-//     punchCardTopPosition += punchCardRowHeight;
-//     anime({
-//         targets: punchCard,
-//         translateY: (punchCardTopPosition),
-//         duration: 200
-//     });
-//     console.log(punchCardTopPosition);
-
-//     timerLoopCounter++;
-//     if (timerLoopCounter < punchCount) {
-//         setTimeout(punchFeed, 500);
-//     }
-// }
-
-// function animateCard() {
-//     punchFeed(punchCard);
-// }
-
+//variable constants for animation. Animation delay is the delay between each 'movement' of the card when getting sucked into the machine, and row height is the height in pixels that it moves up into the machine with each cycle.
 const rowFeedAnimationDelay = 250;
 const cardRowHeight = 35;
+
+//Determines whether the punch card reader is in read mode or punch mode
 let readMode = false;
 
-function buildPunchAnimation(binaryArr, animDuration, rowHeight){
+function buildPunchAnimation(binaryArr, animDuration, rowHeight, direction){
     let animationArray = [];
     for(let i=0; i < (binaryArr.length+1);i++){
-        animationArray.push({
+        //using a for loop, build an animation keyframe object array for the anime.js animation library to animate the punch card. one array entry would be:{duration: 250, value: "-=35"}
+        if (direction == "up"){
+            animationArray.push({
             duration: animDuration,
             value: ("-=" + rowHeight)
         });
+        } else if (direction == "down"){
+            animationArray.push({
+                duration: animDuration,
+                value: ("+=" + rowHeight)
+            });
+        }
     }
+    console.log(animationArray);
     return animationArray;
 }
 
+//this function uses the anime.js animatoin library to run a keyframe animation object array to animate the punch card. https://animejs.com/
 function moveRow(keyFrameArray){
     let punchCard = document.querySelectorAll(".punch-card");
     anime({
@@ -82,32 +36,9 @@ function moveRow(keyFrameArray){
     });
 }
 
-
-// function animateCard(cardTopPos, loopCounter, cardRowNumber){
-//     if (loopCounter >= cardRowNumber) {
-//         return;
-//     }
-//     moveRow(cardTopPos, delay);
-//     cardTopPos+=35;
-//     loopCounter+=1;
-//     delay += 201;
-//     setTimeout(animateCard(cardTopPos, loopCounter, cardRowNumber, delay), 1000);
-// }
-
-
-// function feed(){
-//     for(let i=1; i<15; i++){
-//     sleep(1500).then(() => {
-//         animateCard(i*10);
-//         console.log(i*10);
-//       })
-//     }
-      
-// }
-
 $(document).ready(function () {
 
-    //clear the message box on reload
+    //clear the message box on refresh
     $(".message-input").val("");
 
     let messageInput = "";
@@ -124,7 +55,7 @@ $(document).ready(function () {
             //clear the punch card of content
             $(".punch-card").empty();
     
-            //stope the message input
+            //store the message input
             messageInput = $(".message-input").val();
             console.log(messageInput);
     
@@ -135,7 +66,7 @@ $(document).ready(function () {
         }
     });
 
-    //Click event listener for READ button
+    //Click event listener for Blank Card button
     $(".blank-button").on("click", function (event) {
 
         if(readMode == true){
@@ -145,18 +76,18 @@ $(document).ready(function () {
         }
     });
 
+    //click event handler for the MODE button
     $(".mode-button").on("click", function (event) {
         if(readMode == false){
             readMode = true;
             $(".mode-button").html("READ");
             $(".blank-button").prop("disabled", false);
-
             console.log("read mode")
         } else if (readMode == true){
             readMode = false;
             $(".mode-button").html("PUNCH");
             $(".blank-button").prop("disabled", true);
-            console.log("punch mode")
+            console.log("punch mode");
         }
         
         //Allow the user to punch out holes
@@ -173,6 +104,9 @@ $(document).ready(function () {
 
         let messageDecimalArray = [];
         let messageBinaryArray = [];
+
+        //Set the card back to it's original position before animation
+        $(".punch-card").css("transform", "translateY(0)");
 
         //For the length of the entered message, each character in the message string is convereted to its UTF-8 decimal encoding number
         for (let i = 0; i < message.length; i++) {
@@ -199,32 +133,23 @@ $(document).ready(function () {
                 for (let j = 0; j < (8 - binaryLength); j++) {
                     messageBinaryArray[i].unshift("0");
                 }
-
-                // switch (messageBinaryArray[i].length){
-                //     case 6:
-                //         messageBinaryArray[i].unshift("0");
-                //         messageBinaryArray[i].unshift("0");
-                //         break;
-                //     case 7:
-                //         messageBinaryArray[i].unshift("0");
-                //         break;
-                // }
             }
         }
 
         console.log(messageDecimalArray);
         console.log(messageBinaryArray);
 
-
+        //Move the punch card into the slot by the length of the card
+        
         //Nested for loop: outer loop loops through each of the message characters, and for each character adds a div row to the punch card
         for (let i = 0; i < messageDecimalArray.length; i++) {
-
+            
             //add a row to the punch card
             $(".punch-card").append(`<div class="punch-row punch-row${i}"></div>`);
-
+            
             //Loop through each binary digit in the row for the character
             for (let j = 0; j < messageBinaryArray[i].length; j++) {
-
+                
                 //if the binary digit is a 1, print a punched hole into the row
                 if (messageBinaryArray[i][j] === "1") {
                     $(".punch-row" + i).append(`<div class="punch-hole punch-hole${j}"></div>`);
@@ -232,13 +157,25 @@ $(document).ready(function () {
                     $(".punch-row" + i).append(`<div class="punch-hole punch-hole-closed punch-hole${j}"></div>`);
                 }
             }
-
+            
         }
 
+        //Move the card up and out of sight into the machine by the length of the card
+        $(".punch-card").css("top", ((messageDecimalArray.length + 1) * -cardRowHeight) + "px");
+
+        // $(".punch-card").css("bottom", "0");
+        
+        moveRow(buildPunchAnimation(messageBinaryArray, rowFeedAnimationDelay,cardRowHeight, "down"));
+        
     }//closing for process message function
 
     //This function fills the card completely with blank spaces
     function setCardToBlank() {
+
+        //reset card position
+        $(".punch-card").css("top", "0");
+        $(".punch-card").css("transform", "translateY(0)");
+
 
         //clear the punch card of html elements
         $(".punch-card").empty();
@@ -303,7 +240,10 @@ $(document).ready(function () {
 
         console.log(decimalArray);
 
-        moveRow(buildPunchAnimation(binaryArray, rowFeedAnimationDelay,cardRowHeight));
+        //Set the card back to it's original position before animation
+        $(".punch-card").css("transform", "translateY(0)");
+
+        moveRow(buildPunchAnimation(binaryArray, rowFeedAnimationDelay,cardRowHeight, "up"));
 
         //return the final translated message
         return translatedString;
